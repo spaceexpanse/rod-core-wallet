@@ -47,9 +47,9 @@ jobs:
           #sh test/lint/git-subtree-check.sh src/leveldb
           #sh test/lint/git-subtree-check.sh src/crc32c
           #sh test/lint/git-subtree-check.sh src/chiabls
-          test/lint/check-doc.py
-          test/lint/logprint-scanner.py
-          test/lint/lint-all.sh
+          sh test/lint/check-doc.py
+          sh test/lint/logprint-scanner.py
+          sh test/lint/lint-all.sh
 
           #if [ "${{ github.event_name }}" = "pull_request" ]; then
           #  COMMIT_RANGE="${{ github.base_ref }}..HEAD"
