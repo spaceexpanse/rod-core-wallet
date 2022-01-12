@@ -28,7 +28,9 @@ jobs:
           pip install flake8==3.8.3
           pip install vulture==0.29
           pip install yq
+
           curl -sL "https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_VERSION}/shellcheck-${SHELLCHECK_VERSION}.linux.x86_64.tar.xz" | tar --xz -xf - --directory /tmp/
+
       - name: Set TRAVIS_BRANCH workaround env variable
         if: github.event_name == 'pull_request'
         run: echo "TRAVIS_BRANCH=${{ github.base_ref }}" >> $GITHUB_ENV
@@ -37,6 +39,7 @@ jobs:
         run: |
           export PATH="/tmp/shellcheck-${SHELLCHECK_VERSION}:${PATH}"
           echo $PATH
+
           git checkout -qf -B master refs/remotes/origin/master
           git checkout -qf $GITHUB_SHA
           test/lint/git-subtree-check.sh src/secp256k1
@@ -47,10 +50,12 @@ jobs:
           test/lint/check-doc.py
           test/lint/logprint-scanner.py
           test/lint/lint-all.sh
+
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             COMMIT_RANGE="${{ github.base_ref }}..HEAD"
             test/lint/commit-script-check.sh $COMMIT_RANGE
           fi
+
   cmake:
     name: CMake-${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
@@ -94,12 +99,14 @@ jobs:
           if [[ ${{ matrix.config.os }} = macos* ]]; then
             brew install "$APT_BASE" ${{ matrix.config.packages }}
           fi
+
       - name: Prepare ccache timestamp
         id: ccache_cache_timestamp
         shell: cmake -P {0}
         run: |
           string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
           message("::set-output name=timestamp::${current_date}")
+
       - name: ccache cache files
         uses: actions/cache@v2
         with:
@@ -107,6 +114,7 @@ jobs:
           key: cmake-${{ matrix.config.name }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
           restore-keys: |
             cmake-${{ matrix.config.name }}-ccache-
+
       - name: build
         run: |
           CC=${{ matrix.config.cc }}
@@ -120,6 +128,7 @@ jobs:
           mkdir -p ${{ github.workspace }}/cmake-build-debug && cd ${{ github.workspace }}/cmake-build-debug
           cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ${{ github.workspace }}
           cmake --build ${{ github.workspace }}/cmake-build-debug --target all -- -j 2
+
   build_depends:
     name: Depends-${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
@@ -175,12 +184,14 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends --no-upgrade -qq "$APT_BASE" ${{ matrix.config.apt_get }}
+
       - name: Prepare Depends timestamp
         id: depends_cache_timestamp
         shell: cmake -P {0}
         run: |
           string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
           message("::set-output name=timestamp::${current_date}")
+
       - name: depends cache files
         uses: actions/cache@v2
         with:
@@ -191,29 +202,38 @@ jobs:
           key: ${{ runner.os }}-depends-${{ matrix.config.host }}-${{ steps.depends_cache_timestamp.outputs.timestamp }}
           restore-keys: |
             ${{ runner.os }}-depends-${{ matrix.config.host }}-
+
       - name: Build Depends
         run: |
           export LC_ALL=C.UTF-8
+
           PATH=$(echo $PATH | tr ':' "\n" | sed '/\/opt\/python/d' | tr "\n" ":" | sed "s|::|:|g")
           # Add llvm-symbolizer directory to PATH. Needed to get symbolized stack traces from the sanitizers.
           PATH=$PATH:/usr/lib/llvm-6.0/bin/
           export PATH
+
           mkdir -p depends/SDKs depends/sdk-sources
+
           OSX_SDK_BASENAME="Xcode-${{ matrix.config.XCODE_VERSION }}-${{ matrix.config.XCODE_BUILD_ID }}-extracted-SDK-with-libcxx-headers.tar.gz"
           OSX_SDK_PATH="depends/sdk-sources/${OSX_SDK_BASENAME}"
+
           if [ -n "${{ matrix.config.XCODE_VERSION }}" ] && [ ! -f "$OSX_SDK_PATH" ]; then
             curl --location --fail "${SDK_URL}/${OSX_SDK_BASENAME}" -o "$OSX_SDK_PATH"
           fi
+
           if [ -n "${{ matrix.config.XCODE_VERSION }}" ] && [ -f "$OSX_SDK_PATH" ]; then
             tar -C "depends/SDKs" -xf "$OSX_SDK_PATH"
           fi
+
           if [[ ${{ matrix.config.host }} = *-mingw32 ]]; then
             BIN=$(which ${{ matrix.config.host }}-g++-posix)
             sudo update-alternatives --set ${{ matrix.config.host }}-g++ $BIN
           fi
+
           if [ -z "${{ matrix.config.no_depends }}" ]; then
             make -j2 -C depends HOST=${{ matrix.config.host }} ${{ matrix.config.dep_opts }}
           fi
+
   build_wallet:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
@@ -329,6 +349,7 @@ jobs:
             brew install ${{ matrix.config.brew_install }}
             pip3 install ds_store mac_alias
           fi
+
       - name: depends cache files
         if: matrix.config.no_depends != 1
         uses: actions/cache@v2
@@ -340,12 +361,14 @@ jobs:
           key: ${{ runner.os }}-depends-${{ matrix.config.host }}-
           restore-keys: |
             ${{ runner.os }}-depends-${{ matrix.config.host }}-
+
       - name: Prepare ccache timestamp
         id: ccache_cache_timestamp
         shell: cmake -P {0}
         run: |
           string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
           message("::set-output name=timestamp::${current_date}")
+
       - name: ccache cache files
         uses: actions/cache@v2
         with:
@@ -355,65 +378,85 @@ jobs:
           key: ${{ matrix.config.name }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
           restore-keys: |
             ${{ matrix.config.name }}-ccache-
+
       - name: Build Wallet
         run: |
           export LC_ALL=C.UTF-8
+
           echo $CCACHE_DIR
           echo $PARAMS_DIR
+
           PATH=$(echo $PATH | tr ':' "\n" | sed '/\/opt\/python/d' | tr "\n" ":" | sed "s|::|:|g")
           # Add llvm-symbolizer directory to PATH. Needed to get symbolized stack traces from the sanitizers.
           PATH=$PATH:/usr/lib/llvm-6.0/bin/
           export PATH
+
           mkdir -p depends/SDKs depends/sdk-sources
+
           OSX_SDK_BASENAME="Xcode-${{ matrix.config.XCODE_VERSION }}-${{ matrix.config.XCODE_BUILD_ID }}-extracted-SDK-with-libcxx-headers.tar.gz"
           OSX_SDK_PATH="depends/sdk-sources/${OSX_SDK_BASENAME}"
+
           if [ -n "${{ matrix.config.XCODE_VERSION }}" ] && [ ! -f "$OSX_SDK_PATH" ]; then
             curl --location --fail "${SDK_URL}/${OSX_SDK_BASENAME}" -o "$OSX_SDK_PATH"
           fi
+
           if [ -n "${{ matrix.config.XCODE_VERSION }}" ] && [ -f "$OSX_SDK_PATH" ]; then
             tar -C "depends/SDKs" -xf "$OSX_SDK_PATH"
           fi
+
           if [[ ${{ matrix.config.host }} = *-mingw32 ]]; then
             BIN=$(which ${{ matrix.config.host }}-g++-posix)
             sudo update-alternatives --set ${{ matrix.config.host }}-g++ $BIN
             sudo update-binfmts --import /usr/share/binfmts/wine
           fi
+
           if [[ ${{ matrix.config.os }} = macos* ]]; then
             CC=${{ matrix.config.cc }}
             CXX=${{ matrix.config.cxx }}
             export CC
             export CXX
           fi
+
           if [[ ${{ matrix.config.os }} = ubuntu* ]]; then
             OUTDIR_PATH="$GITHUB_WORKSPACE/$GITHUB_RUN_NUMBER-${{ matrix.config.host }}"
             BITCOIN_CONFIG_ALL="--disable-dependency-tracking --prefix=$GITHUB_WORKSPACE/depends/${{ matrix.config.host }} --bindir=$OUTDIR_PATH/bin --libdir=$OUTDIR_PATH/lib"
           fi
+
           if [ "${{ matrix.config.unit_tests }}" = "true" ] || [ "${{ matrix.config.functional_tests }}" = "true" ]; then
             mkdir -p $PARAMS_DIR
             PARAMS_FLAGS="--with-params-dir=$PARAMS_DIR"
           fi
+
           echo ::group::Autogen
           ./autogen.sh
           echo ::endgroup::
+
           mkdir build && cd build
+
           echo ::group::Configure
           ../configure --cache-file=config.cache $BITCOIN_CONFIG_ALL ${{ matrix.config.BITCOIN_CONFIG }} $PARAMS_FLAGS || ( cat config.log && false)
           echo ::endgroup::
+
           echo ::group::Distdir
           make distdir VERSION=${{ matrix.config.host }}
           echo ::endgroup::
+
           cd xaya-${{ matrix.config.host }}
+
           echo ::group::Configure
           ./configure --cache-file=../config.cache $BITCOIN_CONFIG_ALL ${{ matrix.config.BITCOIN_CONFIG }} $PARAMS_FLAGS || ( cat config.log && false)
           echo ::endgroup
+
           echo ::group::Build
           make -j2 ${{ matrix.config.goal }} || ( echo "Build failure. Verbose build follows." && make ${{ matrix.config.goal }} V=1 ; false )
           echo ::endgroup::
+
           if [ "${{ matrix.config.unit_tests }}" = "true" ] || [ "${{ matrix.config.functional_tests }}" = "true" ]; then
             echo ::group::Params
             ./params/install-params.sh $PARAMS_DIR
             echo ::endgroup::
           fi
+
           if [ "${{ matrix.config.unit_tests }}" = "true" ]; then
             echo ::group::Unit-Tests
             if [[ ${{ matrix.config.os }} = ubuntu* ]]; then
@@ -423,6 +466,7 @@ jobs:
             fi
             echo ::endgroup::
           fi
+
           if [ "${{ matrix.config.functional_tests }}" = "true" ]; then
             echo ::group::Functional-Tests
             test/functional/test_runner.py --combinedlogslen=4000 ${{ matrix.config.test_runner_extra }}
