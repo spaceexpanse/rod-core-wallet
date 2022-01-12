@@ -6,7 +6,8 @@ jobs:
     env:
       SHELLCHECK_VERSION: v0.7.1
       LC_ALL: C
-    runs-on: ubuntu-18.04
+    #runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     defaults:
       run:
         shell: bash
@@ -164,7 +165,8 @@ jobs:
           #  apt_get: g++-multilib python3-zmq
 
           - name: x86_64 Linux
-            os: ubuntu-18.04
+            #os: ubuntu-18.04
+            os: ubuntu-20.04
             host: x86_64-unknown-linux-gnu
             apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libqrencode-dev libdbus-1-dev libharfbuzz-dev
             dep_opts: NO_QT=1 NO_UPNP=1 NO_NATPMP=1 DEBUG=1 ALLOW_HOST_PACKAGES=1
@@ -283,7 +285,8 @@ jobs:
           #  BITCOIN_CONFIG: "--with-gui=auto --enable-reduce-exports --disable-online-rust"
 
           - name: x86_64 Linux  [GOAL:install]  [bionic]
-            os: ubuntu-18.04
+            #os: ubuntu-18.04
+            os: ubuntu-20.04
             host: x86_64-unknown-linux-gnu
             apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libqrencode-dev libdbus-1-dev libharfbuzz-dev
             unit_tests: true
@@ -293,7 +296,8 @@ jobs:
             BITCOIN_CONFIG: "--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --disable-online-rust"
 
           - name: x86_64 Linux  [GOAL:install]  [bionic] [no GUI no unit tests - only functional tests on legacy pre-HD wallets]
-            os: ubuntu-18.04
+            #os: ubuntu-18.04
+            os: ubuntu-20.04
             host: x86_64-unknown-linux-gnu
             apt_get: python3-zmq
             unit_tests: false
@@ -303,7 +307,8 @@ jobs:
             BITCOIN_CONFIG: "--enable-zmq --with-gui=no --enable-glibc-back-compat --enable-reduce-exports --disable-online-rust"
 
           - name: x86_64 Linux  [GOAL:install]  [bionic]  [no depends only system libs]
-            os: ubuntu-18.04
+            #os: ubuntu-18.04
+            os: ubuntu-20.04
             host: x86_64-unknown-linux-gnu
             apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libevent-dev bsdmainutils libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev libdb5.3++-dev libminiupnpc-dev libnatpmp-dev libzmq3-dev libqrencode-dev libgmp-dev libsodium-dev cargo
             unit_tests: true
