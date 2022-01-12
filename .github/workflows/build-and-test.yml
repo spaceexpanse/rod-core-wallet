@@ -42,11 +42,11 @@ jobs:
 
           git checkout -qf -B master refs/remotes/origin/master
           git checkout -qf $GITHUB_SHA
-          sh test/lint/git-subtree-check.sh src/secp256k1
-          sh test/lint/git-subtree-check.sh src/univalue
-          sh test/lint/git-subtree-check.sh src/leveldb
-          sh test/lint/git-subtree-check.sh src/crc32c
-          sh test/lint/git-subtree-check.sh src/chiabls
+          #sh test/lint/git-subtree-check.sh src/secp256k1
+          #sh test/lint/git-subtree-check.sh src/univalue
+          #sh test/lint/git-subtree-check.sh src/leveldb
+          #sh test/lint/git-subtree-check.sh src/crc32c
+          #sh test/lint/git-subtree-check.sh src/chiabls
           test/lint/check-doc.py
           test/lint/logprint-scanner.py
           test/lint/lint-all.sh
