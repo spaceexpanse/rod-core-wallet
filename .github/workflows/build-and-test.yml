@@ -169,7 +169,8 @@ jobs:
             #os: ubuntu-20.04
             host: x86_64-unknown-linux-gnu
             #apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libqrencode-dev libdbus-1-dev libharfbuzz-dev
-            apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev
+            #apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev
+            apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev libtool 
             #dep_opts: NO_QT=1 NO_UPNP=1 NO_NATPMP=1 DEBUG=1 ALLOW_HOST_PACKAGES=1
             dep_opts: NO_QT=1 NO_UPNP=1 NO_NATPMP=1 DEBUG=1 ALLOW_HOST_PACKAGES=1 CC=gcc-8 CXX=g++-8
 
@@ -291,7 +292,8 @@ jobs:
             #os: ubuntu-20.04
             host: x86_64-unknown-linux-gnu
             #apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libqrencode-dev libdbus-1-dev libharfbuzz-dev
-            apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev
+            #apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev
+            apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev libtool
             #unit_tests: true
             unit_tests: false
             #functional_tests: true
@@ -299,7 +301,8 @@ jobs:
             goal: install
             test_runner_extra: "--coverage --all  --exclude feature_dbcrash"
             #BITCOIN_CONFIG: "--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --disable-online-rust"
-            BITCOIN_CONFIG: "-enable-zmq --with-libs=no --with-gui=qt5 --enable-reduce-exports --enable-debug --disable-fuzz-binary  CFLAGS=\"-g0 -O2 -funsigned-char\" CXXFLAGS=\"-g0 -O2 -funsigned-char\" CC=gcc-8 CXX=g++-8"
+            #BITCOIN_CONFIG: "-enable-zmq --with-libs=no --with-gui=qt5 --enable-reduce-exports --enable-debug --disable-fuzz-binary  CFLAGS=\"-g0 -O2 -funsigned-char\" CXXFLAGS=\"-g0 -O2 -funsigned-char\" CC=gcc-8 CXX=g++-8"
+            BITCOIN_CONFIG: "-enable-zmq --with-libs=no --with-gui=no --enable-reduce-exports --enable-debug --disable-fuzz-binary  CFLAGS=\"-g0 -O2 -funsigned-char\" CXXFLAGS=\"-g0 -O2 -funsigned-char\" CC=gcc-8 CXX=g++-8"
 
           #- name: x86_64 Linux  [GOAL:install]  [bionic] [no GUI no unit tests - only functional tests on legacy pre-HD wallets]
           #  os: ubuntu-18.04
