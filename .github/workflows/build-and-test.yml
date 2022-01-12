@@ -142,7 +142,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config:
+        config:                             
           #- name: ARM 32-bit
           #  os: ubuntu-18.04
           #  host: arm-linux-gnueabihf
