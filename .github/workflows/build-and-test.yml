@@ -51,10 +51,10 @@ jobs:
           test/lint/logprint-scanner.py
           test/lint/lint-all.sh
 
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            COMMIT_RANGE="${{ github.base_ref }}..HEAD"
-            test/lint/commit-script-check.sh $COMMIT_RANGE
-          fi
+          #if [ "${{ github.event_name }}" = "pull_request" ]; then
+          #  COMMIT_RANGE="${{ github.base_ref }}..HEAD"
+          #  test/lint/commit-script-check.sh $COMMIT_RANGE
+          #fi
 
   cmake:
     name: CMake-${{ matrix.config.name }}
