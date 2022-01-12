@@ -1,4 +1,4 @@
-name: CI Actions for XAYA       
+name: CI Actions for XAYA        
 
 on: [push, pull_request]
 jobs:
