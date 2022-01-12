@@ -56,78 +56,78 @@ jobs:
           #  test/lint/commit-script-check.sh $COMMIT_RANGE
           #fi
 
-  cmake:
-    name: CMake-${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
-    needs: lint
-    continue-on-error: true
-    env:
-      APT_BASE: ccache
-      CCACHE_DIR: ${{ github.workspace }}/.ccache
-      CCACHE_SIZE: 500M
-      CCACHE_COMPRESS: 1
-    defaults:
-      run:
-        shell: bash
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-          - name: Linux
-            os: ubuntu-18.04
-            packages: python3-zmq qttools5-dev qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libevent-dev bsdmainutils libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev libdb5.3++-dev libminiupnpc-dev libzmq3-dev libqrencode-dev libgmp-dev libsodium-dev cargo
-            cc: gcc
-            cxx: g++
-
-          - name: macOS
-            os: macos-10.15
-            packages: python3 autoconf automake berkeley-db4 libtool boost miniupnpc libnatpmp pkg-config qt5 zmq libevent qrencode gmp libsodium rust
-            cc: $(brew --prefix llvm)/bin/clang
-            cxx: $(brew --prefix llvm)/bin/clang++
-
-    steps:
-      - name: Get Source
-        uses: actions/checkout@v2
-
-      - name: Setup Environment
-        run: |
-          if [[ ${{ matrix.config.os }} = ubuntu* ]]; then
-            sudo apt-add-repository "ppa:ondrej/php" -y
-            sudo apt-get --yes update
-            sudo apt-get install --no-install-recommends --no-upgrade -qq "$APT_BASE" ${{ matrix.config.packages }}
-          fi
-          if [[ ${{ matrix.config.os }} = macos* ]]; then
-            brew install "$APT_BASE" ${{ matrix.config.packages }}
-          fi
-
-      - name: Prepare ccache timestamp
-        id: ccache_cache_timestamp
-        shell: cmake -P {0}
-        run: |
-          string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
-          message("::set-output name=timestamp::${current_date}")
-
-      - name: ccache cache files
-        uses: actions/cache@v2
-        with:
-          path: .ccache
-          key: cmake-${{ matrix.config.name }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
-          restore-keys: |
-            cmake-${{ matrix.config.name }}-ccache-
-
-      - name: build
-        run: |
-          CC=${{ matrix.config.cc }}
-          CXX=${{ matrix.config.cxx }}
-          if [[ ${{ matrix.config.os }} = macos* ]]; then
-            export CPPFLAGS="-I/usr/local/Cellar/gmp/6.2.1/include"
-            export LDFLAGS="-L/usr/local/Cellar/gmp/6.2.1/lib"
-          fi
-          export CC
-          export CXX
-          mkdir -p ${{ github.workspace }}/cmake-build-debug && cd ${{ github.workspace }}/cmake-build-debug
-          cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ${{ github.workspace }}
-          cmake --build ${{ github.workspace }}/cmake-build-debug --target all -- -j 2
+#  cmake:
+#    name: CMake-${{ matrix.config.name }}
+#    runs-on: ${{ matrix.config.os }}
+#    needs: lint
+#    continue-on-error: true
+#    env:
+#      APT_BASE: ccache
+#      CCACHE_DIR: ${{ github.workspace }}/.ccache
+#      CCACHE_SIZE: 500M
+#      CCACHE_COMPRESS: 1
+#    defaults:
+#      run:
+#        shell: bash
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        config:
+#          - name: Linux
+#            os: ubuntu-18.04
+#            packages: python3-zmq qttools5-dev qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libevent-dev bsdmainutils libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev libdb5.3++-dev libminiupnpc-dev libzmq3-dev libqrencode-dev libgmp-dev libsodium-dev cargo
+#            cc: gcc
+#            cxx: g++
+#
+#          - name: macOS
+#            os: macos-10.15
+#            packages: python3 autoconf automake berkeley-db4 libtool boost miniupnpc libnatpmp pkg-config qt5 zmq libevent qrencode gmp libsodium rust
+#            cc: $(brew --prefix llvm)/bin/clang
+#            cxx: $(brew --prefix llvm)/bin/clang++
+#
+#    steps:
+#      - name: Get Source
+#        uses: actions/checkout@v2
+#
+#      - name: Setup Environment
+#        run: |
+#          if [[ ${{ matrix.config.os }} = ubuntu* ]]; then
+#            sudo apt-add-repository "ppa:ondrej/php" -y
+#            sudo apt-get --yes update
+#            sudo apt-get install --no-install-recommends --no-upgrade -qq "$APT_BASE" ${{ matrix.config.packages }}
+#          fi
+#          if [[ ${{ matrix.config.os }} = macos* ]]; then
+#            brew install "$APT_BASE" ${{ matrix.config.packages }}
+#          fi
+#
+#      - name: Prepare ccache timestamp
+#        id: ccache_cache_timestamp
+#        shell: cmake -P {0}
+#        run: |
+#          string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
+#          message("::set-output name=timestamp::${current_date}")
+#
+#      - name: ccache cache files
+#        uses: actions/cache@v2
+#        with:
+#          path: .ccache
+#          key: cmake-${{ matrix.config.name }}-ccache-${{ steps.ccache_cache_timestamp.outputs.timestamp }}
+#          restore-keys: |
+#            cmake-${{ matrix.config.name }}-ccache-
+#
+#      - name: build
+#        run: |
+#          CC=${{ matrix.config.cc }}
+#          CXX=${{ matrix.config.cxx }}
+#          if [[ ${{ matrix.config.os }} = macos* ]]; then
+#            export CPPFLAGS="-I/usr/local/Cellar/gmp/6.2.1/include"
+#            export LDFLAGS="-L/usr/local/Cellar/gmp/6.2.1/lib"
+#          fi
+#          export CC
+#          export CXX
+#          mkdir -p ${{ github.workspace }}/cmake-build-debug && cd ${{ github.workspace }}/cmake-build-debug
+#          cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ${{ github.workspace }}
+#          cmake --build ${{ github.workspace }}/cmake-build-debug --target all -- -j 2
 
   build_depends:
     name: Depends-${{ matrix.config.name }}
