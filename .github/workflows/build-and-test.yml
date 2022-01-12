@@ -472,3 +472,4 @@ jobs:
             test/functional/test_runner.py --combinedlogslen=4000 ${{ matrix.config.test_runner_extra }}
             echo ::endgroup::
           fi
+       
