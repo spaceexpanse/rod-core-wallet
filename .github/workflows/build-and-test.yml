@@ -290,16 +290,16 @@ jobs:
             os: ubuntu-18.04
             #os: ubuntu-20.04
             host: x86_64-unknown-linux-gnu
-          #  apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libqrencode-dev libdbus-1-dev libharfbuzz-dev
+            #apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libqrencode-dev libdbus-1-dev libharfbuzz-dev
             apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev
-          # unit_tests: true
+            #unit_tests: true
             unit_tests: false
-          # functional_tests: true
+            #functional_tests: true
             functional_tests: false
             goal: install
             test_runner_extra: "--coverage --all  --exclude feature_dbcrash"
-           # BITCOIN_CONFIG: "--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --disable-online-rust"
-           BITCOIN_CONFIG: "-enable-zmq --with-libs=no --with-gui=qt5 --enable-reduce-exports --enable-debug --disable-fuzz-binary  CFLAGS=\"-g0 -O2 -funsigned-char\" CXXFLAGS=\"-g0 -O2 -funsigned-char\" CC=gcc-8 CXX=g++-8"
+            #BITCOIN_CONFIG: "--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --disable-online-rust"
+            BITCOIN_CONFIG: "-enable-zmq --with-libs=no --with-gui=qt5 --enable-reduce-exports --enable-debug --disable-fuzz-binary  CFLAGS=\"-g0 -O2 -funsigned-char\" CXXFLAGS=\"-g0 -O2 -funsigned-char\" CC=gcc-8 CXX=g++-8"
 
           #- name: x86_64 Linux  [GOAL:install]  [bionic] [no GUI no unit tests - only functional tests on legacy pre-HD wallets]
           #  os: ubuntu-18.04
