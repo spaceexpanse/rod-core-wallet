@@ -168,8 +168,10 @@ jobs:
             os: ubuntu-18.04
             #os: ubuntu-20.04
             host: x86_64-unknown-linux-gnu
-            apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libqrencode-dev libdbus-1-dev libharfbuzz-dev
-            dep_opts: NO_QT=1 NO_UPNP=1 NO_NATPMP=1 DEBUG=1 ALLOW_HOST_PACKAGES=1
+            #apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libqrencode-dev libdbus-1-dev libharfbuzz-dev
+            apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev
+            #dep_opts: NO_QT=1 NO_UPNP=1 NO_NATPMP=1 DEBUG=1 ALLOW_HOST_PACKAGES=1
+            dep_opts: NO_QT=1 NO_UPNP=1 NO_NATPMP=1 DEBUG=1 ALLOW_HOST_PACKAGES=1 CC=gcc-8 CXX=g++-8
 
           #- name: macOS 10.12
           #  os: ubuntu-18.04
@@ -288,33 +290,37 @@ jobs:
             os: ubuntu-18.04
             #os: ubuntu-20.04
             host: x86_64-unknown-linux-gnu
-            apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libqrencode-dev libdbus-1-dev libharfbuzz-dev
-            unit_tests: true
-            functional_tests: true
+          #  apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libqrencode-dev libdbus-1-dev libharfbuzz-dev
+            apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev
+          # unit_tests: true
+            unit_tests: false
+          # functional_tests: true
+            functional_tests: false
             goal: install
             test_runner_extra: "--coverage --all  --exclude feature_dbcrash"
-            BITCOIN_CONFIG: "--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --disable-online-rust"
+           # BITCOIN_CONFIG: "--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --disable-online-rust"
+           BITCOIN_CONFIG: "-enable-zmq --with-libs=no --with-gui=qt5 --enable-reduce-exports --enable-debug --disable-fuzz-binary  CFLAGS=\"-g0 -O2 -funsigned-char\" CXXFLAGS=\"-g0 -O2 -funsigned-char\" CC=gcc-8 CXX=g++-8"
 
-          - name: x86_64 Linux  [GOAL:install]  [bionic] [no GUI no unit tests - only functional tests on legacy pre-HD wallets]
-            os: ubuntu-18.04
-            #os: ubuntu-20.04
-            host: x86_64-unknown-linux-gnu
-            apt_get: python3-zmq
-            unit_tests: false
-            functional_tests: true
-            goal: install
-            test_runner_extra: "--legacywallet"
-            BITCOIN_CONFIG: "--enable-zmq --with-gui=no --enable-glibc-back-compat --enable-reduce-exports --disable-online-rust"
-
-          - name: x86_64 Linux  [GOAL:install]  [bionic]  [no depends only system libs]
-            os: ubuntu-18.04
-            #os: ubuntu-20.04
-            host: x86_64-unknown-linux-gnu
-            apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libevent-dev bsdmainutils libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev libdb5.3++-dev libminiupnpc-dev libnatpmp-dev libzmq3-dev libqrencode-dev libgmp-dev libsodium-dev cargo
-            unit_tests: true
-            no_depends: 1
-            goal: install
-            BITCOIN_CONFIG: "--enable-zmq --with-incompatible-bdb --with-gui=qt5 CPPFLAGS='-DARENA_DEBUG -DDEBUG_LOCKORDER'"
+          #- name: x86_64 Linux  [GOAL:install]  [bionic] [no GUI no unit tests - only functional tests on legacy pre-HD wallets]
+          #  os: ubuntu-18.04
+          #  #os: ubuntu-20.04
+          #  host: x86_64-unknown-linux-gnu
+          #  apt_get: python3-zmq
+          #  unit_tests: false
+          #  functional_tests: true
+          #  goal: install
+          #  test_runner_extra: "--legacywallet"
+          #  BITCOIN_CONFIG: "--enable-zmq --with-gui=no --enable-glibc-back-compat --enable-reduce-exports --disable-online-rust"
+          #
+          #- name: x86_64 Linux  [GOAL:install]  [bionic]  [no depends only system libs]
+          #  os: ubuntu-18.04
+          #  #os: ubuntu-20.04
+          #  host: x86_64-unknown-linux-gnu
+          #  apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libevent-dev bsdmainutils libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev libdb5.3++-dev libminiupnpc-dev libnatpmp-dev libzmq3-dev libqrencode-dev libgmp-dev libsodium-dev cargo
+          #  unit_tests: true
+          #  no_depends: 1
+          #  goal: install
+          #  BITCOIN_CONFIG: "--enable-zmq --with-incompatible-bdb --with-gui=qt5 CPPFLAGS='-DARENA_DEBUG -DDEBUG_LOCKORDER'"
 
           #- name: macOS 10.12  [GOAL:deploy] [no functional tests]
           #  os: ubuntu-18.04
