@@ -75,4 +75,4 @@ jobs:
         make -j6
         make deploy 
     - run: sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status" # Enable WSL support for Win32 applications. 
-                
+               
