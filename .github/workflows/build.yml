@@ -13,8 +13,8 @@ jobs:
 
     steps:
     - run: |
-        echo "MY_DATE=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
-        echo $MY_DATE
+        echo "::set-output name=now::$(date +'%Y-%m-%d-%H-%M')"
+        echo ${{ steps.date.outputs.now }}
     - run: |
         sudo apt-get update
         sudo apt-get upgrade
