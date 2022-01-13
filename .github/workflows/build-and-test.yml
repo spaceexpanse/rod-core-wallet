@@ -292,7 +292,7 @@ jobs:
             goal: deploy
             #BITCOIN_CONFIG: "--with-gui=auto --enable-reduce-exports --disable-online-rust"
             #BITCOIN_CONFIG: "--enable-reduce-exports --disable-gui-tests --disable-external-signer"
-            BITCOIN_CONFIG: "--enable-reduce-exports --with-gui=qt5 LDFLAGS=-Wa,-mbig-obj"
+            BITCOIN_CONFIG: "--enable-reduce-exports --disable-gui-tests --disable-external-signer --with-gui=qt5 LDFLAGS=-Wa,-mbig-obj"
 
           - name: x86_64 Linux  [GOAL:install]  [bionic]
             os: ubuntu-18.04
