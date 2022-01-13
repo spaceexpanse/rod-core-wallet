@@ -16,5 +16,5 @@ jobs:
     - run: ./autogen.sh
     - run: ./configure
     - run: |
-      make -j2
-      sudo make install
+        make -j2
+        sudo make install
