@@ -28,5 +28,5 @@ jobs:
     - run: ./autogen.sh
     - run: ./configure
     - run: |
-        make -j20
+        make -j10
         sudo make install
