@@ -66,8 +66,8 @@ jobs:
     - run: PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
     - run: sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # Disable WSL support for Win32 applications.
     - run: cd depends
-    - run: make HOST=x86_64-w64-mingw32
     - run: ls -lh 
+    - run: make HOST=x86_64-w64-mingw32
     - run: cd ..
     - run: ls -lh 
     - run: CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
