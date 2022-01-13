@@ -12,7 +12,9 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - run: $(date +'%Y%m%d.%H%M%S')
+    - run: |
+        echo "NOW=$(date +'%Y-%m-%d-%H-%M')"
+        echo $NOW
     - run: |
         sudo apt-get update
         sudo apt-get upgrade
