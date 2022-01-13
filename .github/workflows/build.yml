@@ -1,6 +1,7 @@
 name: Build on Linux     
 
 on: [push, pull_request]
+
 jobs:
   build:
 
