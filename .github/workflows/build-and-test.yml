@@ -159,7 +159,10 @@ jobs:
             #os: ubuntu-20.04
             host: x86_64-w64-mingw32
             #apt_get: python3 nsis g++-mingw-w64-x86-64 wine-binfmt wine64
-            apt_get: python3 nsis g++-mingw-w64-x86-64 wine-binfmt wine64 libtool file 
+            #apt_get: python3 nsis g++-mingw-w64-x86-64 wine-binfmt wine64 libtool file
+            apt_get: build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev \
+            libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev \
+            g++-mingw-w64-x86-64 
 
           #- name: 32-bit + dash
           #  os: ubuntu-18.04
@@ -172,7 +175,10 @@ jobs:
             host: x86_64-unknown-linux-gnu
             #apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libqrencode-dev libdbus-1-dev libharfbuzz-dev
             #apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev
-            apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev libtool 
+            #apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev libtool
+            apt_get: build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev \
+            libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev \
+ 
             #dep_opts: NO_QT=1 NO_UPNP=1 NO_NATPMP=1 DEBUG=1 ALLOW_HOST_PACKAGES=1
             dep_opts: NO_QT=1 NO_UPNP=1 NO_NATPMP=1 DEBUG=1 ALLOW_HOST_PACKAGES=1 CC=gcc-8 CXX=g++-8
 
@@ -292,7 +298,7 @@ jobs:
             goal: deploy
             #BITCOIN_CONFIG: "--with-gui=auto --enable-reduce-exports --disable-online-rust"
             #BITCOIN_CONFIG: "--enable-reduce-exports --disable-gui-tests --disable-external-signer"
-            BITCOIN_CONFIG: "--enable-reduce-exports --disable-gui-tests --disable-external-signer --with-gui=qt5 LDFLAGS=-Wa,-mbig-obj"
+            BITCOIN_CONFIG: "--enable-reduce-exports --with-gui=qt5 LDFLAGS=-Wa,-mbig-obj"
 
           - name: x86_64 Linux  [GOAL:install]  [bionic]
             os: ubuntu-18.04
