@@ -28,7 +28,7 @@ jobs:
         path: |
           .ccache
           .xaya-params
-        key: x86_64-unknown-linux-gnu-ccache-$NOW
+        key: x86_64-unknown-linux-gnu-ccache-${{ env.NOW }} 
         restore-keys: |
             x86_64-unknown-linux-gnu-ccache-
     - run: |
@@ -50,10 +50,10 @@ jobs:
           depends/built
           depends/sdk-sources
           depends/x86_64-unknown-linux-gnu          
-        key: ubuntu-18.04-depends-x86_64-unknown-linux-gnu-$NOW
+        key: ubuntu-18.04-depends-x86_64-unknown-linux-gnu-${{ env.NOW }} 
         restore-keys: ubuntu-18.04-depends-x86_64-unknown-linux-gnu-
     - run: ./autogen.sh
-    - run: ./configure
+    - run: ./configure --enable-reduce-exports --enable-zmq --enable-glibc-back-compat --with-gui=qt5 LDFLAGS=-static-libstdc++ CPPFLAGS=-DDEBUG_LOCKORDER
     - run: |
         make -j2
         sudo make install 
@@ -92,7 +92,7 @@ jobs:
           depends/built
           depends/sdk-sources
           depends/x86_64-w64-mingw32          
-        key: ubuntu-18.04-depends-x86_64-w64-mingw32-$NOW
+        key: ubuntu-18.04-depends-x86_64-w64-mingw32-${{ env.NOW }}
         restore-keys: ubuntu-18.04-depends-x86_64-w64-mingw32-
     - run: |
         export LC_ALL=C.UTF-8
