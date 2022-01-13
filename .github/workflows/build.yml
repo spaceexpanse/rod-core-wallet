@@ -10,20 +10,37 @@ jobs:
   build_linux64:
 
     runs-on: ubuntu-18.04
-
+    env:
+      APT_BASE: ccache
+      CCACHE_DIR: ${{ github.workspace }}/.ccache
+      CCACHE_SIZE: 500M
+      CCACHE_COMPRESS: 1
+      PARAMS_DIR: ${{ github.workspace }}/.xaya-params
+    defaults:
+      run:
+        shell: bash
+        
     steps:
     - run: echo "NOW=$(date +'%Y-%m-%d-%H-%M')" >> $GITHUB_ENV
     #- run: echo $NOW
+    - uses: actions/cache@v2
+        with:
+          path: |
+            .ccache
+            .xaya-params
+          key: x86_64-unknown-linux-gnu-ccache-$NOW
+          restore-keys: |
+            x86_64-unknown-linux-gnu-ccache-
     - run: |
         sudo apt-get update
         sudo apt-get upgrade
-        sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
+        sudo apt-get install --no-install-recommends --no-upgrade -qq "$APT_BASE" build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
         sudo apt-get install software-properties-common
         sudo apt-add-repository "ppa:ondrej/php" -y
         sudo apt-add-repository "ppa:bitcoin/bitcoin" -y
         sudo apt-add-repository "ppa:deadsnakes/ppa" -y
         sudo apt-get update
-        sudo apt-get install git libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev    
+        sudo apt-get install --no-install-recommends --no-upgrade -qq "$APT_BASE" git libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev    
     - uses: actions/checkout@v2
       with:
         ref: 1.6
@@ -44,6 +61,15 @@ jobs:
   build_win64:
 
     runs-on: ubuntu-18.04
+    env:
+      APT_BASE: ccache
+      CCACHE_DIR: ${{ github.workspace }}/.ccache
+      CCACHE_SIZE: 500M
+      CCACHE_COMPRESS: 1
+      PARAMS_DIR: ${{ github.workspace }}/.xaya-params
+    defaults:
+      run:
+        shell: bash
 
     steps:
     - run: echo "NOW=$(date +'%Y-%m-%d-%H-%M')" >> $GITHUB_ENV
