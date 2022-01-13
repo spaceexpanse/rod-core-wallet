@@ -35,7 +35,7 @@ jobs:
     - run: ./autogen.sh
     - run: ./configure
     - run: |
-        make -j4
+        make -j6
         sudo make install 
 
   build_win64:
@@ -63,18 +63,16 @@ jobs:
           depends/sdk-sources
         key: ubuntu-18.04-depends-x86_64-w64-mingw32
         restore-keys: ubuntu-18.04-depends-x86_64-w64-mingw32
-    - run: |
-        PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
-        sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # Disable WSL support for Win32 applications.
-        cd depends
-        make HOST=x86_64-w64-mingw32
-        cd ..
-    - run: |
-        CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
-        ./autogen.sh
+    - run: PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
+    - run: sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # Disable WSL support for Win32 applications.
+    - run: cd depends
+    - run: make HOST=x86_64-w64-mingw32
+    - run: cd ..
+    - run: CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
+    - run: ./autogen.sh
     - run: ./configure
     - run: |
-        make -j4
-        sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status" # Enable WSL support for Win32 applications.
-        make deploy  
+        make -j6
+        make deploy 
+    - run: sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status" # Enable WSL support for Win32 applications. 
               
