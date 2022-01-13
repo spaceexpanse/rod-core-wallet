@@ -13,6 +13,9 @@ jobs:
 
     steps:
     - run: |
+        echo "NOW::$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
+        echo $NOW
+    - run: |
         sudo apt-get update
         sudo apt-get upgrade
         sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
@@ -45,6 +48,9 @@ jobs:
 
     steps:
     - run: |
+        echo "NOW::$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
+        echo $NOW
+    - run: |
         sudo apt-get update
         sudo apt-get upgrade
         sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
@@ -56,7 +62,7 @@ jobs:
         sudo apt-get install git libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev g++-mingw-w64-x86-64 nsis    
     - uses: actions/checkout@v2
       with:
-        ref: 1.4
+        ref: 1.6
     - uses: actions/cache@v2
       with:
         path: |
