@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - run: echo "NOW=$(date +'%Y-%m-%d-%H-%M')" >> $GITHUB_ENV
-    - run: echo $NOW
+    #- run: echo $NOW
     - run: |
         sudo apt-get update
         sudo apt-get upgrade
@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - run: echo "NOW=$(date +'%Y-%m-%d-%H-%M')"
+    - run: echo "NOW=$(date +'%Y-%m-%d-%H-%M')" >> $GITHUB_ENV
     - run: |
         sudo apt-get update
         sudo apt-get upgrade
