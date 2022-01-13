@@ -160,7 +160,8 @@ jobs:
             host: x86_64-w64-mingw32
             #apt_get: python3 nsis g++-mingw-w64-x86-64 wine-binfmt wine64
             #apt_get: python3 nsis g++-mingw-w64-x86-64 wine-binfmt wine64 libtool file
-            apt_get: build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev g++-mingw-w64-x86-64 
+            apt_get: build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev \
+            libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev g++-mingw-w64-x86-64 
 
           #- name: 32-bit + dash
           #  os: ubuntu-18.04
@@ -292,7 +293,9 @@ jobs:
             #os: ubuntu-20.04
             host: x86_64-w64-mingw32
             #apt_get: python3 nsis g++-mingw-w64-x86-64 wine-binfmt wine64
-            apt_get: python3 nsis g++-mingw-w64-x86-64 wine-binfmt wine64 libtool file
+            #apt_get: python3 nsis g++-mingw-w64-x86-64 wine-binfmt wine64 libtool file
+            apt_get: build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev g++-mingw-w64-x86-64 
+
             #unit_tests: true
             unit_tests: false
             functional_tests: false
@@ -307,7 +310,8 @@ jobs:
             host: x86_64-unknown-linux-gnu
             #apt_get: python3-zmq qtbase5-dev qttools5-dev-tools libqt5svg5-dev libqt5charts5-dev libqrencode-dev libdbus-1-dev libharfbuzz-dev
             #apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev
-            apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev libtool
+            #apt_get: gcc-8 g++-8 python3-zmq qtbase5-dev qttools5-dev-tools libdbus-1-dev libharfbuzz-dev libtool
+            apt_get: build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev
             #unit_tests: true
             unit_tests: false
             #functional_tests: true
