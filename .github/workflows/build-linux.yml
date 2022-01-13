@@ -7,7 +7,7 @@ on:
     branches: [ $default-branch ]
 
 jobs:
-  build:
+  build_linux:
 
     runs-on: ubuntu-18.04
 
@@ -25,8 +25,13 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: 1.4
+    - uses: actions/cache@v2
+      with:
+        path: |
+          depends/built
+          depends/sdk-sources
     - run: ./autogen.sh
     - run: ./configure
     - run: |
-        make -j10
+        make -j4
         sudo make install
