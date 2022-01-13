@@ -3,9 +3,9 @@ name: Build on Linux
 on: [push, pull_request]
 jobs:
   build:
-    runs-on: ubuntu-18.04
     env:
       GLOBAL_CONFIG="--enable-reduce-exports"
+    runs-on: ubuntu-18.04
     defaults:
       run:
         shell: bash
