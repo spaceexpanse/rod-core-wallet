@@ -3,14 +3,9 @@ name: Build on Linux
 on: [push, pull_request]
 jobs:
   build:
-    env:
-      GLOBAL_CONFIG="--enable-reduce-exports"
+
     runs-on: ubuntu-18.04
-    defaults:
-      run:
-        shell: bash
-    strategy:
-      fail-fast: false
+
     steps:
     - name: Get Source
       uses: actions/checkout@v2
@@ -37,5 +32,5 @@ jobs:
        run: ./configure
      - name: make
        run: |
-         make -j2
-         sudo make install
+       make -j2
+       sudo make install
