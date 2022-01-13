@@ -291,7 +291,8 @@ jobs:
             functional_tests: false
             goal: deploy
             #BITCOIN_CONFIG: "--with-gui=auto --enable-reduce-exports --disable-online-rust"
-            BITCOIN_CONFIG: "--enable-reduce-exports --disable-gui-tests --disable-external-signer"
+            #BITCOIN_CONFIG: "--enable-reduce-exports --disable-gui-tests --disable-external-signer"
+            BITCOIN_CONFIG="--enable-reduce-exports --with-gui=qt5 LDFLAGS=-Wa,-mbig-obj"
 
           - name: x86_64 Linux  [GOAL:install]  [bionic]
             os: ubuntu-18.04
@@ -307,8 +308,9 @@ jobs:
             goal: install
             test_runner_extra: "--coverage --all  --exclude feature_dbcrash"
             #BITCOIN_CONFIG: "--enable-zmq --with-gui=qt5 --enable-glibc-back-compat --enable-reduce-exports --disable-online-rust"
-            BITCOIN_CONFIG: "-enable-zmq --with-libs=no --with-gui=qt5 --enable-reduce-exports --enable-debug --disable-fuzz-binary  CFLAGS=\"-g0 -O2 -funsigned-char\" CXXFLAGS=\"-g0 -O2 -funsigned-char\" CC=gcc-8 CXX=g++-8"
+            #BITCOIN_CONFIG: "-enable-zmq --with-libs=no --with-gui=qt5 --enable-reduce-exports --enable-debug --disable-fuzz-binary  CFLAGS=\"-g0 -O2 -funsigned-char\" CXXFLAGS=\"-g0 -O2 -funsigned-char\" CC=gcc-8 CXX=g++-8"
             #BITCOIN_CONFIG: "-enable-zmq --with-libs=no --with-gui=no --enable-reduce-exports --enable-debug --disable-fuzz-binary  CFLAGS=\"-g0 -O2 -funsigned-char\" CXXFLAGS=\"-g0 -O2 -funsigned-char\" CC=gcc-8 CXX=g++-8"
+            BITCOIN_CONFIG: "--enable-zmq --enable-glibc-back-compat --enable-reduce-exports --with-gui=qt5 LDFLAGS=-static-libstdc++ CPPFLAGS=-DDEBUG_LOCKORDER"
 
           #- name: x86_64 Linux  [GOAL:install]  [bionic] [no GUI no unit tests - only functional tests on legacy pre-HD wallets]
           #  os: ubuntu-18.04
