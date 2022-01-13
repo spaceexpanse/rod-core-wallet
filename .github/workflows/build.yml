@@ -12,9 +12,7 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - run: |
-        echo "NOW=$(date +'%Y-%m-%d-%H-%M')"
-        echo $NOW
+    - run: echo "NOW=$(date +'%Y-%m-%d-%H-%M')"
     - run: |
         sudo apt-get update
         sudo apt-get upgrade
@@ -33,9 +31,9 @@ jobs:
         path: |
           depends/built
           depends/sdk-sources
-          #depends/x86_64-unknown-linux-gnu          
-        key: ubuntu-18.04-depends-x86_64-unknown-linux-gnu
-        restore-keys: ubuntu-18.04-depends-x86_64-unknown-linux-gnu
+          depends/x86_64-unknown-linux-gnu          
+        key: ubuntu-18.04-depends-x86_64-unknown-linux-gnu-$NOW
+        restore-keys: ubuntu-18.04-depends-x86_64-unknown-linux-gnu-
     - run: ./autogen.sh
     - run: ./configure
     - run: |
@@ -47,9 +45,7 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - run: |
-        echo "NOW::$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
-        echo $NOW
+    - run: echo "NOW=$(date +'%Y-%m-%d-%H-%M')"
     - run: |
         sudo apt-get update
         sudo apt-get upgrade
@@ -68,9 +64,9 @@ jobs:
         path: |
           depends/built
           depends/sdk-sources
-          #depends/x86_64-w64-mingw32          
-        key: ubuntu-18.04-depends-x86_64-w64-mingw32
-        restore-keys: ubuntu-18.04-depends-x86_64-w64-mingw32
+          depends/x86_64-w64-mingw32          
+        key: ubuntu-18.04-depends-x86_64-w64-mingw32-$NOW
+        restore-keys: ubuntu-18.04-depends-x86_64-w64-mingw32-
     - run: |
         export LC_ALL=C.UTF-8
         unset CC CXX DISPLAY                 
