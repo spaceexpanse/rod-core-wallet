@@ -12,9 +12,10 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - run: |
-        echo "::set-output name=now::$(date +'%Y-%m-%d-%H-%M')"
-        echo ${{ steps.date.outputs.now }}
+      - name: Set current date as env variable
+        run: echo "NOW::$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
+      - name: Echo current date
+        run: echo $NOW
     - run: |
         sudo apt-get update
         sudo apt-get upgrade
