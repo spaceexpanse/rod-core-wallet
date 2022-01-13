@@ -30,6 +30,8 @@ jobs:
         path: |
           depends/built
           depends/sdk-sources
+        key: ubuntu-18.04-depends-linux
+        restore-keys: ubuntu-18.04-depends-linux
     - run: ./autogen.sh
     - run: ./configure
     - run: |
