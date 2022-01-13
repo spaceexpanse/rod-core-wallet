@@ -23,8 +23,8 @@ jobs:
         sudo apt-get update
         sudo apt-get install git libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev    
     - uses: actions/checkout@v2
-      #with:
-      #  ref: 1.6
+      with:
+        ref: 1.6
     - uses: actions/cache@v2
       with:
         path: |
@@ -37,4 +37,44 @@ jobs:
     - run: |
         make -j4
         sudo make install 
-             
+
+  build_win64:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+    - run: |
+        sudo apt-get update
+        sudo apt-get upgrade
+        sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
+        sudo apt-get install software-properties-common
+        sudo apt-add-repository "ppa:ondrej/php" -y
+        sudo apt-add-repository "ppa:bitcoin/bitcoin" -y
+        sudo apt-add-repository "ppa:deadsnakes/ppa" -y
+        sudo apt-get update
+        sudo apt-get install git libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev g++-mingw-w64-x86-64 nsis    
+    - uses: actions/checkout@v2
+      with:
+        ref: 1.4
+    - uses: actions/cache@v2
+      with:
+        path: |
+          depends/built
+          depends/sdk-sources
+        key: ubuntu-18.04-depends-x86_64-w64-mingw32
+        restore-keys: ubuntu-18.04-depends-x86_64-w64-mingw32
+    - run: |
+        PATH=$(echo "$PATH" | sed -e 's/:\/mnt.*//g') # strip out problematic Windows %PATH% imported var
+        sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # Disable WSL support for Win32 applications.
+        cd depends
+        make HOST=x86_64-w64-mingw32
+        cd ..
+    - run: |
+        CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
+        ./autogen.sh
+    - run: ./configure
+    - run: |
+        make -j4
+        sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status" # Enable WSL support for Win32 applications.
+        make deploy  
+              
