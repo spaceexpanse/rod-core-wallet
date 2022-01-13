@@ -23,6 +23,8 @@ jobs:
         sudo apt-get update
         sudo apt-get install git libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev    
     - uses: actions/checkout@v2
+      with:
+        ref: 1.3
     - run: ./autogen.sh
     - run: ./configure
     - run: |
