@@ -192,6 +192,10 @@ jobs:
 
       - name: Setup Environment
         run: |
+          sudo apt-get install software-properties-common
+          sudo apt-add-repository "ppa:ondrej/php" -y
+          sudo apt-add-repository "ppa:bitcoin/bitcoin" -y
+          sudo apt-add-repository "ppa:deadsnakes/ppa" -y
           sudo apt-get update
           sudo apt-get install --no-install-recommends --no-upgrade -qq "$APT_BASE" ${{ matrix.config.apt_get }}
 
