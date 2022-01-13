@@ -67,10 +67,8 @@ jobs:
     - run: sudo bash -c "echo 0 > /proc/sys/fs/binfmt_misc/status" # Disable WSL support for Win32 applications.
     - run: make HOST=x86_64-w64-mingw32
       working-directory: depends
-    - run: cd ..
-    - run: CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
     - run: ./autogen.sh
-    - run: ./configure
+    - run: CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site ./configure --prefix=/
     - run: |
         make -j6
         make deploy 
