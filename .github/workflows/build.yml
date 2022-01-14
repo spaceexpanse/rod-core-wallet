@@ -2,7 +2,7 @@ name: Build CI
   
 on:
   push:
-    branches: [ build ]
+    branches: [ build,06 ]
   pull_request:
     branches: [ $default-branch ]
 
