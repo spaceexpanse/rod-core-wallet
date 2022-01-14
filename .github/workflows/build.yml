@@ -81,7 +81,7 @@ jobs:
         asset_name: my-artifact.zip
         asset_content_type: application/zip
 
-build_win64:
+  build_win64:
 
     runs-on: ubuntu-18.04
     env:
