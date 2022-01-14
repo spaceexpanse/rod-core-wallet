@@ -59,16 +59,16 @@ jobs:
         sudo make install 
     - name: Build project # This would actually build your project, using zip for an example artifact
       run: |
-        zip --junk-paths my-artifact README.md
+        zip --junk-paths xaya-bin-x86_64-unknown-linux-gnu README.md
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
+        tag_name: v.${{ github.ref_name }}.${{ github.run_id }}
+        release_name: Xaya Core ${{ github.ref_name }}
+        draft: true
         prerelease: false
     - name: Upload Release Asset
       id: upload-release-asset 
@@ -81,7 +81,7 @@ jobs:
         asset_name: my-artifact.zip
         asset_content_type: application/zip
 
-  build_win64:
+build_win64:
 
     runs-on: ubuntu-18.04
     env:
