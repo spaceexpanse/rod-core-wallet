@@ -21,7 +21,7 @@ jobs:
         shell: bash
         
     steps:
-    - run: echo "NOW=$(date +'%Y-%m-%d-%H-%M')" >> $GITHUB_ENV
+    - run: echo "NOW=$(date +'%Y%m%d-%H%M')" >> $GITHUB_ENV
     #- run: echo $NOW
     - uses: actions/cache@v2
       with:
@@ -48,6 +48,7 @@ jobs:
       with:
         path: |
           depends/built
+          depends/work/build
           depends/sdk-sources
           depends/x86_64-unknown-linux-gnu          
         key: ubuntu-18.04-depends-x86_64-unknown-linux-gnu-${{ env.NOW }} 
@@ -59,15 +60,19 @@ jobs:
         sudo make install 
     - name: Build project # This would actually build your project, using zip for an example artifact
       run: |
-        zip --junk-paths xaya-bin-x86_64-unknown-linux-gnu README.md
+        ls -lh
+        mkdir $GITHUB_WORKSPACE/deploy
+        cp $GITHUB_WORKSPACE/src/cryptocrowd-cli $GITHUB_WORKSPACE/src/cryptocrowd-tx $GITHUB_WORKSPACE/src/cryptocrowdd $GITHUB_WORKSPACE/src/qt/cryptocrowd-qt $GITHUB_WORKSPACE/src/cryptocrowd-wallet $GITHUB_WORKSPACE/src/cryptocrowd-hash $GITHUB_WORKSPACE/deploy 
+        strip $GITHUB_WORKSPACE/deploy/*
+        zip --junk-paths xaya-bin-x86_64-unknown-linux-gnu deploy/*
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v.${{ github.ref_name }}.${{ github.run_id }}
-        release_name: Xaya Core ${{ github.ref_name }}
+        tag_name: v.${{ github.ref_name }}.${{ github.run_number }}
+        release_name: Xaya Core ${{ github.ref_name }} ${{ github.run_number }}
         draft: true
         prerelease: false
     - name: Upload Release Asset
@@ -77,8 +82,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./my-artifact.zip
-        asset_name: my-artifact.zip
+        asset_path: ./xaya-bin-x86_64-unknown-linux-gnu.zip
+        asset_name: xaya-bin-x86_64-unknown-linux-gnu.zip
         asset_content_type: application/zip
 
   build_win64:
@@ -102,7 +107,7 @@ jobs:
         sudo apt-get install build-essential libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils python3 libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
         sudo apt-get install software-properties-common
         sudo apt-add-repository "ppa:ondrej/php" -y
-        sudo apt-add-repository "ppa:bitcoin/bitcoin" -y
+        #sudo apt-add-repository "ppa:bitcoin/bitcoin" -y
         sudo apt-add-repository "ppa:deadsnakes/ppa" -y
         sudo apt-get update
         sudo apt-get install git libdb4.8-dev libdb4.8++-dev libminiupnpc-dev libzmq3-dev libqt5gui5 libqt5core5a libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev libboost-program-options-dev g++-mingw-w64-x86-64 nsis    
@@ -114,6 +119,7 @@ jobs:
         path: |
           depends/built
           depends/sdk-sources
+          depends/work/build
           depends/x86_64-w64-mingw32          
         key: ubuntu-20.04-depends-x86_64-w64-mingw32-${{ env.NOW }}
         restore-keys: ubuntu-20.04-depends-x86_64-w64-mingw32-
