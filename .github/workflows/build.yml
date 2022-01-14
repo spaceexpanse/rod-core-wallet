@@ -2,9 +2,18 @@ name: Build CI
   
 on:
   push:
-    branches: [ build,06 ]
-  pull_request:
-    branches: [ $default-branch ]
+#    branches: [ build,06 ]
+#  pull_request:
+#    branches: [ $default-branch ]
+    branches:
+#     - master
+     - dev
+    tags:
+#     - v*
+     - build
+    pull_request:
+     branches:
+     - dev
 
 jobs:
   build_linux64:
@@ -138,4 +147,4 @@ jobs:
         make deploy 
     - run: sudo bash -c "echo 1 > /proc/sys/fs/binfmt_misc/status" # Enable WSL support for Win32 applications. 
     #- run: ls -lh 
-               
+ 
