@@ -7,7 +7,7 @@ on:
 #    branches: [ $default-branch ]
     branches:
 #     - master
-     - dev
+     - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
     tags:
 #     - v*
      - build
