@@ -1,4 +1,4 @@
-name: Linux CI
+name: Build CI
   
 on:
   push:
@@ -83,7 +83,7 @@ jobs:
 
   build_win64:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     env:
       APT_BASE: ccache
       CCACHE_DIR: ${{ github.workspace }}/.ccache
@@ -115,8 +115,8 @@ jobs:
           depends/built
           depends/sdk-sources
           depends/x86_64-w64-mingw32          
-        key: ubuntu-18.04-depends-x86_64-w64-mingw32-${{ env.NOW }}
-        restore-keys: ubuntu-18.04-depends-x86_64-w64-mingw32-
+        key: ubuntu-20.04-depends-x86_64-w64-mingw32-${{ env.NOW }}
+        restore-keys: ubuntu-20.04-depends-x86_64-w64-mingw32-
     - run: |
         export LC_ALL=C.UTF-8
         unset CC CXX DISPLAY                 
