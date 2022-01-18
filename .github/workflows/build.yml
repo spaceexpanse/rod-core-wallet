@@ -7,14 +7,16 @@ on:
 #    branches: [ $default-branch ]
     branches:
 #     - master
-#     - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
-#     - /^travis.*$/
+#     - /^cirrus.*$/
      - dev 
-     - 0.6.1 
-#     - /\d+\.\d+(\.\d+)$/
+#     - 0.6.1 
+    - '[0-9]+.[0-9]+*'
+    - '[0-9]+\.[0-9]+\.[0-9]+*'
     tags:
 #     - v*
      - build
+    - 'v[0-9]+.[0-9]+*'
+    - 'v[0-9]+\.[0-9]+\.[0-9]+*'
   pull_request:
     branches:
     - dev
