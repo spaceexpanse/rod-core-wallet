@@ -537,8 +537,8 @@ public:
         std::cout << std::string("Finished calculating Signet Genesis Block.\n");
 */
 
-        assert(consensus.hashGenesisBlock == uint256S("0xa8953af315a2dea0bc116bdd85d000f6b4e0d58f2718f393c54219b26d62e555"));
-        assert(genesis.hashMerkleRoot == uint256S("0x59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
+        assert(consensus.hashGenesisBlock == uint256S("a8953af315a2dea0bc116bdd85d000f6b4e0d58f2718f393c54219b26d62e555"));
+        assert(genesis.hashMerkleRoot == uint256S("59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
 
         vFixedSeeds.clear();
 
