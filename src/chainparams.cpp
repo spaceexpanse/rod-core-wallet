@@ -244,8 +244,8 @@ public:
         std::cout << std::string("Finished calculating Mainnet Genesis Block.\n");        
 */            
         
-        assert(consensus.hashGenesisBlock == uint256S("9d6f82b53bfede0326360cbaba23304b665e0723e3a26cf893f516e636cca77e"));
-        assert(genesis.hashMerkleRoot == uint256S("3ce4aea0ffd7ba7459b77620fda2a5231e203239bf83281879d82f7a179f44b5"));
+        assert(consensus.hashGenesisBlock == uint256S("0x9d6f82b53bfede0326360cbaba23304b665e0723e3a26cf893f516e636cca77e"));
+        assert(genesis.hashMerkleRoot == uint256S("0x3ce4aea0ffd7ba7459b77620fda2a5231e203239bf83281879d82f7a179f44b5"));
 
         vSeeds.emplace_back("seed.xaya.io");
         vSeeds.emplace_back("seed.xaya.domob.eu");
@@ -371,8 +371,8 @@ public:
         std::cout << std::string("Finished calculating Testnet Genesis Block.\n");
 */   
 
-        assert(consensus.hashGenesisBlock == uint256S("daf586063c96731020b95b4051330e1d6476228bcd5e98122fd741e280e3a77d"));
-        assert(genesis.hashMerkleRoot == uint256S("59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
+        assert(consensus.hashGenesisBlock == uint256S("0xdaf586063c96731020b95b4051330e1d6476228bcd5e98122fd741e280e3a77d"));
+        assert(genesis.hashMerkleRoot == uint256S("0x59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -537,8 +537,8 @@ public:
         std::cout << std::string("Finished calculating Signet Genesis Block.\n");
 */
 
-        assert(consensus.hashGenesisBlock == uint256S("a8953af315a2dea0bc116bdd85d000f6b4e0d58f2718f393c54219b26d62e555"));
-        assert(genesis.hashMerkleRoot == uint256S("59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
+        assert(consensus.hashGenesisBlock == uint256S("0xa8953af315a2dea0bc116bdd85d000f6b4e0d58f2718f393c54219b26d62e555"));
+        assert(genesis.hashMerkleRoot == uint256S("0x59d1a23342282179e810dff9238a97d07bd8602e3a1ba0efb5f519008541f257"));
 
         vFixedSeeds.clear();
 
@@ -642,8 +642,8 @@ public:
         std::cout << std::string("Finished calculating Regtest Genesis Block.\n");
 */
 
-        assert(consensus.hashGenesisBlock == uint256S("a07860306f0d4e24c7d80070630ab70499047965f140e6f17efb9e9620b0d18e"));
-        assert(genesis.hashMerkleRoot == uint256S("9f96a4c275320aaf6386652444be5baade11e2f9f40221a98b968ae5c32dd55a"));
+        assert(consensus.hashGenesisBlock == uint256S("0xa07860306f0d4e24c7d80070630ab70499047965f140e6f17efb9e9620b0d18e"));
+        assert(genesis.hashMerkleRoot == uint256S("0x9f96a4c275320aaf6386652444be5baade11e2f9f40221a98b968ae5c32dd55a"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
